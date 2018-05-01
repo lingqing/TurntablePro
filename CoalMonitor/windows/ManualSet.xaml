@@ -1,0 +1,64 @@
+﻿<Window x:Class="CoalMonitor.windows.ManualSet"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:local="clr-namespace:CoalMonitor.windows"
+        mc:Ignorable="d"
+        Title="ManualSet" Height="300" Width="300">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--用于全局变量-->
+                <ResourceDictionary Source="../resource/AppResource.xaml"></ResourceDictionary>
+                <!--用户控件样式-->
+                <ResourceDictionary Source="../styles/WindowsStyle.xaml"></ResourceDictionary>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    <StackPanel Orientation="Vertical">
+        <TextBlock>第一步：居中平台</TextBlock>
+        <TextBlock>第二步：调平平台或直接点“使用上次”</TextBlock>
+        <!--<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>-->
+        <!--<ListView>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="轴号" Width="Auto"/>
+                    <GridViewColumn Header="速度" Width="Auto"/>
+                    <GridViewColumn Header="步长" Width="Auto"/>
+                    <GridViewColumn Header="向下" Width="Auto"/>
+                    <GridViewColumn Header="向上" Width="Auto"/>
+                    <GridViewColumn Header="当前位置" Width="Auto"/>
+                    <GridViewColumn Header="上限" Width="Auto"/>
+                    <GridViewColumn Header="下限" Width="Auto"/>
+                </GridView>
+            </ListView.View>
+        </ListView>-->
+        <ListBox Name="listBox"  ItemTemplate="{StaticResource AixListItemTemplate}" ItemsSource="{StaticResource ResourceKey=AixesList}" Height="Auto"
+                 ItemContainerStyle="{StaticResource alternateStyle}"/>
+        
+        <TextBlock>第三步：保存数据</TextBlock>
+        <Button>保存</Button>
+    </StackPanel>
+</Window>

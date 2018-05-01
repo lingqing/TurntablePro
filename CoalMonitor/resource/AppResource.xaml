@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:System.Collections;assembly=mscorlib"
+                    xmlns:local="clr-namespace:CoalMonitor.classlib"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="CompanyName">北京航天时代光电科技有限公司</sys:String>
+
+    <c:ArrayList x:Key="AixesList">
+        <local:AixParameter Name="1轴"/>
+        <local:AixParameter Name="2轴"/>
+        <local:AixParameter Name="3轴"/>
+        <local:AixParameter Name="4轴"/>
+        <local:AixParameter Name="5轴"/>
+        <local:AixParameter Name="6轴"/>
+    </c:ArrayList>
+
+    <DataTemplate x:Key="AixListItemTemplate">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Width="Auto" Text="{Binding Name}"/>
+            <ComboBox/>
+            <ComboBox/>
+            <Button>向下</Button>
+            <Button>向上</Button>
+            <TextBlock/>
+            <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
+            <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

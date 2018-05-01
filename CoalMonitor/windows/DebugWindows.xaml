@@ -1,0 +1,52 @@
+﻿<Window x:Class="CoalMonitor.windows.DebugWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CoalMonitor.windows"
+        mc:Ignorable="d"
+        Title="DebugWindows" Height="300" Width="300">
+    <StackPanel>
+        <TextBlock>平台状态：未连接</TextBlock>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>控制卡类型</TextBlock>
+                <ListBox></ListBox>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock>平台调试</TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button>电缸调试</Button>
+                <Button Grid.Column="1">平台点动</Button>
+                <Button Grid.Column="1">平台联动</Button>
+                <Button Grid.Column="1">固定动作</Button>
+                <Button Grid.Column="1">曲线控制</Button>
+            </Grid>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock>平台数据制作</TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button>手摇采集器</Button>
+                <Button Grid.Column="1">手摇数据编辑</Button>
+                <Button Grid.Column="1">待定</Button>
+                <Button Grid.Column="1">待定</Button>
+                <Button Grid.Column="1">待定</Button>
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</Window>
