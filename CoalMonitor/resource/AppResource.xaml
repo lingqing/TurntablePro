@@ -14,16 +14,4 @@
         <local:AixParameter Name="6轴"/>
     </c:ArrayList>
 
-    <DataTemplate x:Key="AixListItemTemplate">
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Width="Auto" Text="{Binding Name}"/>
-            <ComboBox/>
-            <ComboBox/>
-            <Button>向下</Button>
-            <Button>向上</Button>
-            <TextBlock/>
-            <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
-            <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
-        </StackPanel>
-    </DataTemplate>
 </ResourceDictionary>

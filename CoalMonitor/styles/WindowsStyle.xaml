@@ -31,6 +31,9 @@
             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
                 <Setter Property="Background" Value="Gray"/>
             </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                <Setter Property="Background" Value="LightGray"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

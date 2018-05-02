@@ -25,3 +25,4 @@ F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\obj\Debug\Co
 F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\obj\Debug\CoalMonitor.exe
 F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\obj\Debug\CoalMonitor.pdb
 F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\obj\Debug\GeneratedInternalTypeHelper.g.cs
+F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\obj\Debug\CoalMonitor.csprojResolveAssemblyReference.cache

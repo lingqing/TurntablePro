@@ -15,8 +15,7 @@
                 <ResourceDictionary Source="../styles/WindowsStyle.xaml"></ResourceDictionary>
 
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-        
+        </ResourceDictionary>               
     </Window.Resources>
     <StackPanel Orientation="Vertical">
         <TextBlock>第一步：居中平台</TextBlock>
@@ -55,9 +54,24 @@
                 </GridView>
             </ListView.View>
         </ListView>-->
-        <ListBox Name="listBox"  ItemTemplate="{StaticResource AixListItemTemplate}" ItemsSource="{StaticResource ResourceKey=AixesList}" Height="Auto"
-                 ItemContainerStyle="{StaticResource alternateStyle}"/>
-        
+        <ListBox Name="listBox" ItemsSource="{StaticResource ResourceKey=AixesList}" Height="Auto"
+                 ItemContainerStyle="{StaticResource alternateStyle}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="Auto" Text="{Binding Name}"/>
+                        <ComboBox/>
+                        <ComboBox/>
+                        <Button Name="UpButton" Click="UpButton_Click">向下</Button>
+                        <Button Name="DownButton" Click="DownButton_Click">向上</Button>
+                        <TextBlock/>
+                        <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
+                        <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <TextBlock>第三步：保存数据</TextBlock>
         <Button>保存</Button>
     </StackPanel>
