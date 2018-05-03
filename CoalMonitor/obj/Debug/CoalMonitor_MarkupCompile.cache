@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\obj\Debug\
+F:\10_WorkFile\03_VisualStudio\CoalMonitor\CoalMonitor\obj\Debug\
 CoalMonitor
 none
 false
 DEBUG;TRACE
-F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\App.xaml
+F:\10_WorkFile\03_VisualStudio\CoalMonitor\CoalMonitor\App.xaml
 81715264106
 
-112067124693
-141643919623
+17-1976065713
+172002258449
 MainWindow.xaml;resource\AppResource.xaml;styles\WindowsStyle.xaml;windows\AddActionCommand.xaml;windows\DebugWindows.xaml;windows\ManualSet.xaml;windows\Welcom.xaml;windows\WorkWindow.xaml;
 
 False

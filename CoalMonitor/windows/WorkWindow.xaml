@@ -6,7 +6,25 @@
         xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts"
         xmlns:local="clr-namespace:CoalMonitor.windows"
         mc:Ignorable="d"
-        Title="WorkWindow" Height="300" Width="300">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="WorkWindow" Height="650" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--用于全局变量-->
+                <ResourceDictionary Source="../resource/AppResource.xaml"></ResourceDictionary>
+                <!--用户控件样式-->
+                <ResourceDictionary Source="../styles/WindowsStyle.xaml"></ResourceDictionary>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -14,7 +32,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <!--图表区-->
-            <vc:Chart VerticalAlignment="Stretch" Name="_chart">
+            <vc:Chart VerticalAlignment="Stretch" Name="_chart" Width="600">
                 <vc:Chart.Series>
                     <vc:DataSeries RenderAs="QuickLine"/>
                 </vc:Chart.Series>
@@ -42,21 +60,21 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <!--操作区-->
             <StackPanel Name="ManipulateCommand" Orientation="Vertical">
-                <Button>添加指令</Button>
-                <Button>修改指令</Button>
-                <Button>删除指令</Button>
-                <Button>清空指令</Button>
-                <Button>导入指令</Button>
-                <Button>打包指令</Button>
-                <Button>保存指令</Button>
+                <Button Name="AddCmd" Click="AddCmd_Click" Margin="5">添加指令</Button>
+                <Button Margin="5">修改指令</Button>
+                <Button Margin="5">删除指令</Button>
+                <Button Margin="5">清空指令</Button>
+                <Button Margin="5">导入指令</Button>
+                <Button Margin="5">打包指令</Button>
+                <Button Margin="5">保存指令</Button>
             </StackPanel>
-            <TextBox Name="RuningLog" IsEnabled="False">运行日志</TextBox>
+            <ListBox Name="commandListBox" Width="500">运行日志</ListBox>
             <StackPanel Orientation="Vertical">
-                <Button Name="ManualReady" Click="ManualReady_Click">手动准备</Button>
-                <Button>自动准备</Button>
-                <Button>开始</Button>
-                <Button>结束</Button>
-                <Button Name="Exit" Click="Exit_Click">退出</Button>
+                <Button Margin="5" Name="ManualReady" Click="ManualReady_Click">手动准备</Button>
+                <Button Margin="5">自动准备</Button>
+                <Button Margin="5">开始</Button>
+                <Button Margin="5">结束</Button>
+                <Button Name="Exit" Click="Exit_Click"  Margin="5">退出</Button>
             </StackPanel>
         </StackPanel>
     </Grid>    
