@@ -243,8 +243,8 @@ namespace CoalMonitor.windows
         private void ManualReady_Click(object sender, RoutedEventArgs e)
         {
             ManualSet ms = new ManualSet();
-            ms.Show();
-            this.Close();
+            ms.ShowDialog();
+            //this.Close();
         }
 
         /// <summary>
@@ -278,6 +278,127 @@ namespace CoalMonitor.windows
             
             //mMovtionform.OnShowD(0, 0, 0, 0, Mlist.Count);
             //mMovtionform.ShowDialog();
+        }
+
+        /// <summary>
+        /// 保存到指令文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveCmd_Click(object sender, RoutedEventArgs e)
+        {
+            CaculatorCurey();
+            Movement tmp_Movement = new Movement();
+            tmp_Movement.mlist = this.Mlist;
+            FileXmlOperate.WriteXmelSerilalzizer(Filepathd, tmp_Movement);
+            MessageBox.Show("保存完成");
+            //this.ShowTips("保存完成");
+        }
+        /// <summary>
+        /// 修改指令
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditCmd_Click(object sender, RoutedEventArgs e)
+        {
+            if (commandListBox.SelectedIndex < 0 || commandListBox.SelectedIndex >= Mlist.Count)
+            {
+                return;
+            }
+
+            if (actionCmdWindow != null)
+            {
+                actionCmdWindow.Close();
+                actionCmdWindow = null;
+            }
+            actionCmdWindow = new AddActionCommand(Mlist[commandListBox.SelectedIndex]);
+            if (actionCmdWindow.ShowDialog() == true)
+            {
+                Mlist[commandListBox.SelectedIndex] = actionCmdWindow.movdata;
+                UpdateListbox();
+            }           
+        }
+        /// <summary>
+        /// 删除指令
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteCmd_Click(object sender, RoutedEventArgs e)
+        {
+            if (commandListBox.SelectedIndex < 0 || commandListBox.SelectedIndex >= Mlist.Count)
+            {
+                return;
+            }
+            Mlist.RemoveAt(commandListBox.SelectedIndex);
+            UpdateListbox();
+        }
+        /// <summary>
+        /// 清空指令
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearCmd_Click(object sender, RoutedEventArgs e)
+        {
+            if(MessageBox.Show("确认要删除所有指令","清空警告", 
+                MessageBoxButton.OKCancel,MessageBoxImage.Warning) == MessageBoxResult.OK)
+            {
+                Mlist.Clear();
+                UpdateListbox();
+            }
+        }
+
+        private void PackageCmd_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog1.Filter = "指令文件|*.mathb";
+            saveFileDialog1.DefaultExt = "mathb";//缺省默认后缀名
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string pathd = saveFileDialog1.FileName;
+                CaculatorCurey();
+                Movement tmp_Movement = new Movement();
+                tmp_Movement.mlist = this.Mlist;
+                FileXmlOperate.WriteXmelSerilalzizer(pathd, tmp_Movement);
+                MessageBox.Show("打包完成");
+            }
+        }
+        /// <summary>
+        /// 导入指令
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoacCmd_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            openFileDialog1.Filter = "指令文件|*.mathb";
+            openFileDialog1.DefaultExt = "mathb";//缺省默认后缀名
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string pat = openFileDialog1.FileName;
+                if (FileXmlOperate.Exist(pat))
+                {
+                    Movement tmp_Movement = new Movement();
+                    tmp_Movement = (Movement)FileXmlOperate.ReadXmlSerializer(pat, tmp_Movement);
+                    for (int i = 0; i < tmp_Movement.mlist.Count; i++)
+                    {
+                        Mlist.Add(tmp_Movement.mlist[i]);
+                    }
+                    UpdateListbox();
+                }
+            }
+        }
+        // 双击事件
+        private void commandListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListBox listbox = sender as ListBox;
+            if(listbox.SelectedItem == null)
+            {
+                AddCmd_Click(sender, e);
+            }
+            else
+            {
+                EditCmd_Click(sender, e);
+            }
         }
     }
 }

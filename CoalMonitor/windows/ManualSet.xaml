@@ -3,76 +3,121 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
-        xmlns:local="clr-namespace:CoalMonitor.windows"
+        xmlns:local="clr-namespace:CoalMonitor.classlib"
+        xmlns:c="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="ManualSet" Height="300" Width="300">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="ManualSet" Height="600" Width="700">
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!--用于全局变量-->
-                <ResourceDictionary Source="../resource/AppResource.xaml"></ResourceDictionary>
-                <!--用户控件样式-->
-                <ResourceDictionary Source="../styles/WindowsStyle.xaml"></ResourceDictionary>
+        <c:ArrayList x:Key="AixesList">
+            <local:AixParameter TitleName="1轴"/>
+            <local:AixParameter TitleName="2轴"/>
+            <local:AixParameter TitleName="3轴"/>
+            <local:AixParameter TitleName="4轴"/>
+            <local:AixParameter TitleName="5轴"/>
+            <local:AixParameter TitleName="6轴"/>
+        </c:ArrayList>
+        <c:ArrayList x:Key="SpeedList">
+            <sys:Int32>1</sys:Int32>
+            <sys:Int32>10</sys:Int32>
+        </c:ArrayList>
+        <c:ArrayList x:Key="StepList">
+            <sys:Int32>1</sys:Int32>
+            <sys:Int32>10</sys:Int32>
+        </c:ArrayList>
+        <!--隔行异色-->
+        <Style TargetType="ListBoxItem" x:Key="alternateStyle">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="Gray"/>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>               
+        <Style TargetType="TextBlock" x:Key="localTxt">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="localTxtSmall" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="localTxtBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="ComboBox" x:Key="localComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="10 5"/>
+            <Setter Property="Padding" Value="10 5"/>
+        </Style>
+        <Style TargetType="Button" x:Key="localButton" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="10 5"/>
+        </Style>
+        <Style TargetType="Button" x:Key="localButtonLarge" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="20 5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
     </Window.Resources>
-    <StackPanel Orientation="Vertical">
-        <TextBlock>第一步：居中平台</TextBlock>
-        <TextBlock>第二步：调平平台或直接点“使用上次”</TextBlock>
-        <!--<Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-        </Grid>-->
-        <!--<ListView>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="轴号" Width="Auto"/>
-                    <GridViewColumn Header="速度" Width="Auto"/>
-                    <GridViewColumn Header="步长" Width="Auto"/>
-                    <GridViewColumn Header="向下" Width="Auto"/>
-                    <GridViewColumn Header="向上" Width="Auto"/>
-                    <GridViewColumn Header="当前位置" Width="Auto"/>
-                    <GridViewColumn Header="上限" Width="Auto"/>
-                    <GridViewColumn Header="下限" Width="Auto"/>
-                </GridView>
-            </ListView.View>
-        </ListView>-->
+    <StackPanel Orientation="Vertical" Margin="30 10">
+        <TextBlock Style="{StaticResource localTxtSmall}">第一步：居中平台</TextBlock>
+        <Button Style="{StaticResource localButtonLarge}">居中平台</Button>
+        <TextBlock Style="{StaticResource localTxtSmall}">第二步：调平平台或直接点“使用上次”</TextBlock>
+        
         <ListBox Name="listBox" ItemsSource="{StaticResource ResourceKey=AixesList}" Height="Auto"
-                 ItemContainerStyle="{StaticResource alternateStyle}">
+                 ItemContainerStyle="{StaticResource alternateStyle}"
+                 Margin=" 10 5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="Auto" Text="{Binding Name}"/>
-                        <ComboBox/>
-                        <ComboBox/>
-                        <Button Name="UpButton" Click="UpButton_Click">向下</Button>
-                        <Button Name="DownButton" Click="DownButton_Click">向上</Button>
+                        <TextBlock Width="Auto" Text="{Binding TitleName}" Style="{StaticResource localTxt}"/>
+                        <ComboBox ItemsSource="{StaticResource ResourceKey=SpeedList}"
+                                  SelectedIndex="0" Style="{StaticResource localComboBox}"/>
+                        <ComboBox ItemsSource="{StaticResource ResourceKey=StepList}"
+                                  SelectedIndex="0"
+                                  Style="{StaticResource localComboBox}"/>
+                        <Button Name="UpButton" Click="UpButton_Click" Style="{StaticResource localButton}" >向下</Button>
+                        <Button Name="DownButton" Click="DownButton_Click" Style="{StaticResource localButton}" >向上</Button>
                         <TextBlock/>
-                        <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
-                        <Ellipse Fill="#FFFF0006" Height="20" Margin="5" Stroke="Black"  Width="20"/>
+                        <Ellipse Fill="#FFFF0006" Height="20" Margin="20 5" Stroke="Black"  Width="20"/>
+                        <Ellipse Fill="#FFFF0006" Height="20" Margin="20 5" Stroke="Black"  Width="20"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBlock>第三步：保存数据</TextBlock>
-        <Button>保存</Button>
+        <TextBlock Style="{StaticResource localTxtSmall}">第三步：保存数据</TextBlock>
+        <Button  Style="{StaticResource localButtonLarge}">保存</Button>
+        <Border BorderBrush="LightGray" BorderThickness="2"/>
+        <Grid Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button  Style="{StaticResource localButtonLarge}">使用上次</Button>
+            <Button Name="Back" Grid.Column="1" Style="{StaticResource localButtonLarge}"
+                    Click="Back_Click">返回</Button>
+        </Grid>
     </StackPanel>
 </Window>

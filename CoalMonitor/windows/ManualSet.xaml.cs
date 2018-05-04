@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace CoalMonitor.windows
         {
             Button btn = (Button)sender;
             AixParameter para = (AixParameter)btn.DataContext;
-            switch (para.Name)
+            switch (para.TitleName)
             {
                 case "1轴":
                     MessageBox.Show("1轴");
@@ -52,6 +53,15 @@ namespace CoalMonitor.windows
         private void DownButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        /// <summary>
+        /// 返回主页面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

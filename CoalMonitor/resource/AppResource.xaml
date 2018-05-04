@@ -6,12 +6,12 @@
     <sys:String x:Key="CompanyName">北京航天时代光电科技有限公司</sys:String>
 
     <c:ArrayList x:Key="AixesList">
-        <local:AixParameter Name="1轴"/>
-        <local:AixParameter Name="2轴"/>
-        <local:AixParameter Name="3轴"/>
-        <local:AixParameter Name="4轴"/>
-        <local:AixParameter Name="5轴"/>
-        <local:AixParameter Name="6轴"/>
+        <local:AixParameter TitleName="1轴"/>
+        <local:AixParameter TitleName="2轴"/>
+        <local:AixParameter TitleName="3轴"/>
+        <local:AixParameter TitleName="4轴"/>
+        <local:AixParameter TitleName="5轴"/>
+        <local:AixParameter TitleName="6轴"/>
     </c:ArrayList>
 
 </ResourceDictionary>

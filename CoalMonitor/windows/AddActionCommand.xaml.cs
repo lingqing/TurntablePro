@@ -26,7 +26,14 @@ namespace CoalMonitor.windows
         {
             InitializeComponent();
         }
-
+        /// 带参数创建，修改命令        
+        public AddActionCommand(Movdata _data)
+        {
+            InitializeComponent();
+            commandBox.SelectedIndex = _data.Model;
+            commandAngle.Text = _data.TargetAngle.ToString();
+            commandTime.Text = _data.NeedTime.ToString();
+        }
 
         private float Clamp_Angle(float nowangle)
         {

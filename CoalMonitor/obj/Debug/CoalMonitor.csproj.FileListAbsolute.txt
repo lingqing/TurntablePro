@@ -60,3 +60,9 @@ F:\10_WorkFile\03_VisualStudio\CoalMonitor\CoalMonitor\bin\Debug\MaterialDesignT
 F:\10_WorkFile\03_VisualStudio\CoalMonitor\CoalMonitor\bin\Debug\MaterialDesignThemes.Wpf.pdb
 F:\10_WorkFile\03_VisualStudio\CoalMonitor\CoalMonitor\bin\Debug\MaterialDesignThemes.Wpf.xml
 F:\10_WorkFile\03_VisualStudio\CoalMonitor\CoalMonitor\obj\Debug\App.baml
+F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\bin\Debug\MaterialDesignColors.dll
+F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\bin\Debug\MaterialDesignThemes.Wpf.dll
+F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\bin\Debug\SixPlatC.dll
+F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\bin\Debug\MaterialDesignThemes.Wpf.pdb
+F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\bin\Debug\MaterialDesignThemes.Wpf.xml
+F:\10_WorkFiles\02_VisualStudio\CoalMonitor\CoalMonitor\CoalMonitor\obj\Debug\App.baml

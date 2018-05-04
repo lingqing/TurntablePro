@@ -8,7 +8,7 @@ namespace CoalMonitor.classlib
 {
     public class AixParameter
     {
-        public String Name { set; get; }
+        public String TitleName { set; get; }
         
     }
 }
