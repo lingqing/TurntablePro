@@ -49,10 +49,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock>运行状态</TextBlock>
-                    <TextBlock Grid.Row="1">运行时间</TextBlock>
-                    <TextBlock Grid.Row="2">运动类型</TextBlock>
-                    <TextBlock Grid.Row="3">运动速度</TextBlock>
+                    <TextBlock Name="RunState">运行状态</TextBlock>
+                    <TextBlock Grid.Row="1" Name="RunTime">运行时间</TextBlock>
+                    <TextBlock Grid.Row="2" Name="RunType">运动类型</TextBlock>
+                    <TextBlock Grid.Row="3" Name="RunSpeed">运动速度</TextBlock>
                 </Grid>
             </StackPanel>
         </StackPanel>
@@ -63,7 +63,7 @@
                 <Button Name="EditCmd" Click="EditCmd_Click" Margin="5">修改指令</Button>
                 <Button Name="DeleteCmd" Click="DeleteCmd_Click" Margin="5">删除指令</Button>
                 <Button Name="ClearCmd" Click="ClearCmd_Click" Margin="5">清空指令</Button>
-                <Button Name="LoacCmd" Click="LoacCmd_Click" Margin="5">导入指令</Button>
+                <Button Name="LoadCmd" Click="LoadCmd_Click" Margin="5">导入指令</Button>
                 <Button Name="PackageCmd" Click="PackageCmd_Click" Margin="5">打包指令</Button>
                 <Button Name="SaveCmd" Click="SaveCmd_Click" Margin="5">保存指令</Button>
             </StackPanel>
@@ -71,9 +71,9 @@
                      MouseDoubleClick="commandListBox_MouseDoubleClick">命令区</ListBox>
             <StackPanel Orientation="Vertical">
                 <Button Margin="5" Name="ManualReady" Click="ManualReady_Click">手动准备</Button>
-                <Button Margin="5">自动准备</Button>
-                <Button Margin="5">开始</Button>
-                <Button Margin="5">结束</Button>
+                <Button Margin="5" Name="AutoReady" Click="AutoReady_Click">自动准备</Button>
+                <Button Margin="5" Name="StartWork" Click="StartWork_Click">开始</Button>
+                <Button Margin="5" Name="StopWork" Click="StopWork_Click">结束</Button>
                 <Button Name="Exit" Click="Exit_Click"  Margin="5">退出</Button>
             </StackPanel>
         </StackPanel>

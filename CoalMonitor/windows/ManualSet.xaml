@@ -25,8 +25,12 @@
             <local:AixParameter TitleName="6轴"/>
         </c:ArrayList>
         <c:ArrayList x:Key="SpeedList">
-            <sys:Int32>1</sys:Int32>
-            <sys:Int32>10</sys:Int32>
+            <sys:Single>1</sys:Single>
+            <sys:Single>10</sys:Single>
+            <sys:Single>100</sys:Single>
+            <sys:Single>1000</sys:Single>
+            <sys:Single>10000</sys:Single>
+            <sys:Single>100000</sys:Single>
         </c:ArrayList>
         <c:ArrayList x:Key="StepList">
             <sys:Int32>1</sys:Int32>
@@ -82,23 +86,26 @@
     </Window.Resources>
     <StackPanel Orientation="Vertical" Margin="30 10">
         <TextBlock Style="{StaticResource localTxtSmall}">第一步：居中平台</TextBlock>
-        <Button Style="{StaticResource localButtonLarge}">居中平台</Button>
+        <Button Name="ToMiddle" Click="ToMiddle_Click" Style="{StaticResource localButtonLarge}">居中平台</Button>
+        <!--手动调整-->
         <TextBlock Style="{StaticResource localTxtSmall}">第二步：调平平台或直接点“使用上次”</TextBlock>
         
-        <ListBox Name="listBox" ItemsSource="{StaticResource ResourceKey=AixesList}" Height="Auto"
+        <ListBox Name="AixListBox" ItemsSource="{StaticResource ResourceKey=AixesList}" Height="Auto"
                  ItemContainerStyle="{StaticResource alternateStyle}"
                  Margin=" 10 5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Width="Auto" Text="{Binding TitleName}" Style="{StaticResource localTxt}"/>
-                        <ComboBox ItemsSource="{StaticResource ResourceKey=SpeedList}"
+                        <ComboBox Name="SpeedListBox" SelectionChanged="SpeedListBox_SelectionChanged"
+                                  ItemsSource="{StaticResource ResourceKey=SpeedList}"
                                   SelectedIndex="0" Style="{StaticResource localComboBox}"/>
-                        <ComboBox ItemsSource="{StaticResource ResourceKey=StepList}"
+                        <ComboBox Name="StepListBox" SelectionChanged="StepListBox_SelectionChanged"
+                                  ItemsSource="{StaticResource ResourceKey=StepList}"
                                   SelectedIndex="0"
                                   Style="{StaticResource localComboBox}"/>
-                        <Button Name="UpButton" Click="UpButton_Click" Style="{StaticResource localButton}" >向下</Button>
-                        <Button Name="DownButton" Click="DownButton_Click" Style="{StaticResource localButton}" >向上</Button>
+                        <Button Name="DownButton" Click="DownButton_Click" Style="{StaticResource localButton}" >向下</Button>
+                        <Button Name="UpButton" Click="UpButton_Click" Style="{StaticResource localButton}" >向上</Button>
                         <TextBlock/>
                         <Ellipse Fill="#FFFF0006" Height="20" Margin="20 5" Stroke="Black"  Width="20"/>
                         <Ellipse Fill="#FFFF0006" Height="20" Margin="20 5" Stroke="Black"  Width="20"/>
@@ -108,14 +115,16 @@
         </ListBox>
 
         <TextBlock Style="{StaticResource localTxtSmall}">第三步：保存数据</TextBlock>
-        <Button  Style="{StaticResource localButtonLarge}">保存</Button>
+        <Button Name="SaveBtn" Click="SaveBtn_Click"
+                Style="{StaticResource localButtonLarge}">保存</Button>
         <Border BorderBrush="LightGray" BorderThickness="2"/>
         <Grid Margin="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button  Style="{StaticResource localButtonLarge}">使用上次</Button>
+            <Button Name="UseLastBtn" Click="UseLastBtn_Click"
+                    Style="{StaticResource localButtonLarge}">使用上次</Button>
             <Button Name="Back" Grid.Column="1" Style="{StaticResource localButtonLarge}"
                     Click="Back_Click">返回</Button>
         </Grid>

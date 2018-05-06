@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CoalMonitor.classlib;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace CoalMonitor.windows
 {
@@ -23,6 +24,7 @@ namespace CoalMonitor.windows
     {
         private string Configfolder = System.AppDomain.CurrentDomain.BaseDirectory;
         private string Filepathd = "";
+        private string ConfigPath = "";
         private List<Movdata> Mlist = new List<Movdata>();
         private ControlData m_ControlData = ControlData.ShareInstance();
         // 发送工作线程
@@ -30,7 +32,7 @@ namespace CoalMonitor.windows
         private bool isRunning = false;
         private Action workInThread = null;
 
-        private bool BegionMove = false;
+        private bool BeginMove = false;
         private DateTime StartTime = DateTime.Now;
         private int NowIndex = 0;
 
@@ -45,6 +47,8 @@ namespace CoalMonitor.windows
                 FileXmlOperate.CreateFoldPath(Configfolder);
             }
             Filepathd = Configfolder + "\\" + "movedata.mathb";
+            ConfigPath = Configfolder + "\\" + "DebugConfig.txt";
+
             Mlist.Clear();
 
             if (FileXmlOperate.Exist(Filepathd))
@@ -61,6 +65,39 @@ namespace CoalMonitor.windows
             //SendThread = new Thread(SendMethod);
             //SendThread.Start();
             Intlized();
+
+
+            timer2.Interval = new System.TimeSpan(0, 0, 50);
+            timer2.Tick += Timer2_Tick;
+            timer1.Tick += Timer1_Tick;
+        }
+
+        private void Timer2_Tick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+            if (BeginMove)
+            {
+                RunTime.Text = "时间:" + talsec + "秒";
+                commandListBox.SelectedIndex = NowIndex;
+                RunState.Text = "RX:" + rx + "--RY:" + ry + "--RZ:" + rz;
+            }
+            else
+            {
+                rx = 0;
+                ry = 0;
+                rz = 0;
+                float[] abc = m_ControlData.mSixPlaneF.rounds(0, 0, 0);
+                float[] Le = m_ControlData.mSixPlaneF.Six_Platform_RoundF(0, 45, 0, abc[0], abc[1], abc[2]);
+                int[] Spos = m_ControlData.mSinglePlatFormControl.thisplatform.Conver_LengthTopluse2(Le);
+                for (int i = 0; i < 6; i++)
+                {
+                    Spos[i] = Spos[i] + m_ControlData.mConfigXML.DeltalPos[i];
+                }
+                RunTime.Text = "时间:" + talsec + "秒";
+                SinglePlatFormControl.SixSame_ManualStart(m_ControlData.mSinglePlatFormControl.thisplatform.g_handle, Spos, 10, 10 * 0.01f, 0);
+                RunState.Text = "RX:" + rx + "--RY:" + ry + "--RZ:" + rz;
+                timer2.Stop();
+            }
         }
 
         // 线程运行内容
@@ -84,6 +121,12 @@ namespace CoalMonitor.windows
             m_ControlData.mSixPlaneF.CreateSixPlatForm(m_ControlData.mConfigXML.P_ShangLong, m_ControlData.mConfigXML.P_ShangShort, m_ControlData.mConfigXML.P_XiaLong, m_ControlData.mConfigXML.P_XiaShort, m_ControlData.mConfigXML.P_Height, m_ControlData.mConfigXML.P_XingC);
             m_ControlData.mSixPlaneF.CreateJie(45);
         }
+
+#region 指令操作区域：指令添加、修改、删除、清空、保存、导入、导出等
+/////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// 更新指令显示区
+        /// </summary>
         private void UpdateListbox()
         {
             commandListBox.Items.Clear();            
@@ -95,7 +138,9 @@ namespace CoalMonitor.windows
                 commandListBox.Items.Add(i + "--" + GetMovString(Mlist[i], totaltime));
             }
         }
-
+        /// <summary>
+        /// 重新计算指令集合起止角度、终止角度和总时间
+        /// </summary>
         private void CaculatorCurey()
         {
             float totaltime = 0;
@@ -122,12 +167,15 @@ namespace CoalMonitor.windows
                         break;
                     default:
                         break;
-
                 }
                 totaltime = Mlist[i].Caculator(totaltime);
             }
         }
-
+        /// <summary>
+        /// 控制角度范围
+        /// </summary>
+        /// <param name="nowangle"></param>
+        /// <returns></returns>
         private float Clamp_Angle(float nowangle)
         {
             if (nowangle < m_ControlData.MinAngele)
@@ -146,33 +194,31 @@ namespace CoalMonitor.windows
             switch (movdata.Model)
             {
                 case 0:
-                    resd = "(" + timer + "s" + ")" + "偏航" + "--起始角度:" + movdata.StartAngle + "--目标角度:" + movdata.TargetAngle + "--时间:" + movdata.NeedTime;
+                    resd = "(" + timer + "s" + ")" + "\t偏航" + "--起始角度:" + movdata.StartAngle + "--目标角度:" + movdata.TargetAngle + "--时间:" + movdata.NeedTime;
                     break;
                 case 1:
-                    resd = "(" + timer + "s" + ")" + "滚转" + "--起始角度:" + movdata.StartAngle + "--目标角度:" + movdata.TargetAngle + "--时间:" + movdata.NeedTime;
+                    resd = "(" + timer + "s" + ")" + "\t滚转" + "--起始角度:" + movdata.StartAngle + "--目标角度:" + movdata.TargetAngle + "--时间:" + movdata.NeedTime;
                     break;
                 case 2:
-                    resd = "(" + timer + "s" + ")" + "俯仰" + "--起始角度:" + movdata.StartAngle + "--目标角度:" + movdata.TargetAngle + "--时间:" + movdata.NeedTime;
+                    resd = "(" + timer + "s" + ")" + "\t俯仰" + "--起始角度:" + movdata.StartAngle + "--目标角度:" + movdata.TargetAngle + "--时间:" + movdata.NeedTime;
                     break;
                 case 3:
-                    resd = "(" + timer + "s" + ")" + "延迟" + "--时间:" + movdata.NeedTime;
+                    resd = "(" + timer + "s" + ")" + "\t延迟" + "--时间:" + movdata.NeedTime;
                     break;
                 default:
                     resd = "错误指令";
                     break;
-
             }
             return resd;
         }
 
         private void G_Over()
         {
-            BegionMove = false;
+            BeginMove = false;
             workInThread = null;
         }
 
-        //private override 
-
+        
         private float rx = 0;
         private float ry = 0;
         private float rz = 0;
@@ -182,7 +228,7 @@ namespace CoalMonitor.windows
         private double talsec = 0;
         private void CaculatorTosend()
         {
-            if (BegionMove)
+            if (BeginMove)
             {
                 TimeSpan tmpd = DateTime.Now - StartTime;
                 talsec = tmpd.TotalSeconds;
@@ -230,23 +276,6 @@ namespace CoalMonitor.windows
             }
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {            
-            this.Close();
-        }
-
-        /// <summary>
-        /// 手动准备
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ManualReady_Click(object sender, RoutedEventArgs e)
-        {
-            ManualSet ms = new ManualSet();
-            ms.ShowDialog();
-            //this.Close();
-        }
-
         /// <summary>
         /// 添加指令
         /// </summary>
@@ -254,16 +283,6 @@ namespace CoalMonitor.windows
         /// <param name="e"></param>
         private void AddCmd_Click(object sender, RoutedEventArgs e)
         {
-            //if (mMovtionform != null)
-            //{
-            //    mMovtionform.Close();
-            //    mMovtionform = null;
-            //}
-            //mMovtionform = new Movtionform();
-            //mMovtionform.OnBack_ += OnCallBack;
-            //mMovtionform.OnChange_ += OnChangeBack;
-            //mMovtionform.UIModel = 0;
-            //mMovtionform.Owner = this;
             if(actionCmdWindow !=null)
             {
                 actionCmdWindow.Close();
@@ -274,10 +293,7 @@ namespace CoalMonitor.windows
             {
                 Mlist.Add(actionCmdWindow.movdata);
                 UpdateListbox();
-            }
-            
-            //mMovtionform.OnShowD(0, 0, 0, 0, Mlist.Count);
-            //mMovtionform.ShowDialog();
+            } 
         }
 
         /// <summary>
@@ -367,7 +383,7 @@ namespace CoalMonitor.windows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LoacCmd_Click(object sender, RoutedEventArgs e)
+        private void LoadCmd_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             openFileDialog1.Filter = "指令文件|*.mathb";
@@ -399,6 +415,319 @@ namespace CoalMonitor.windows
             {
                 EditCmd_Click(sender, e);
             }
+        }
+#endregion
+        ////////////////////////////////////////////////////////////////////////////////////
+        /// 按钮操作响应程序
+        /// /////////////////////////////////////////////////////////////////////////////
+        private ManualSet mManualSet = null;
+        // 退出按钮
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        //public event Action WriteConfig = null;
+        private void OnCompleteL()
+        {
+            EnabledBeginEnd(true);
+
+            float[] abc = m_ControlData.mSixPlaneF.rounds(0, 0, 0);
+            float[] Le = m_ControlData.mSixPlaneF.Six_Platform_RoundF(0, 45, 0, abc[0], abc[1], abc[2]);
+            int[] Spos = m_ControlData.mSinglePlatFormControl.thisplatform.Conver_LengthTopluse2(Le);
+            for (int i = 0; i < 6; i++)
+            {
+                Spos[i] = Spos[i] + m_ControlData.mConfigXML.DeltalPos[i];
+            }
+            SinglePlatFormControl.SixSame_ManualStart(m_ControlData.mSinglePlatFormControl.thisplatform.g_handle, Spos, 10, 10 * 0.01f, 0);
+
+            //if (WriteConfig != null)
+            {
+                WriteConfig();
+            }
+        }
+
+        private void WriteConfig()
+        {
+            FileXmlOperate.WriteXmelSerilalzizer(ConfigPath, m_ControlData.mConfigXML);
+        }
+        // 手动准备按钮，弹出手动操作窗口
+        private void ManualReady_Click(object sender, RoutedEventArgs e)
+        {
+            mManualSet = new ManualSet();
+            mManualSet.BeginToMiddle += ConnectAndPrepare; // 居中操作回掉
+            mManualSet.OnComplete += OnCompleteL;       // 完成回掉操作
+            usemanual = true;
+            mManualSet.ShowDialog();
+            //this.Close();
+        }
+        // 自动准备按钮
+        private void AutoReady_Click(object sender, RoutedEventArgs e)
+        {
+            //EnabledReadybutton(false);
+            //usemanual = false;
+            //GlobalClass.NowCarType = CardType.iMC4xxE_A;
+            //if (IsPreparing) return;
+            //IsPreparing = true;
+            //if (m_ControlData.mSinglePlatFormControl.ConnectToMachine() == false)
+            //{
+            //    MessageBox.Show("控制卡连接失败，请检查接线");
+            //    IsPreparing = false;
+            //    return;
+            //}            
+            //WaitForTime tmpw = new WaitForTime(1.0f, Config);
+            usemanual = false;
+            ConnectAndPrepare();
+        }
+
+        // 是否准备中
+        private bool IsPreparing = false;
+        private bool usemanual = false;
+        /// <summary>
+        /// 手动准备运行主程序
+        /// </summary>
+        [Obsolete("This Funtion is obsolete; use ConnectAndPrepare instead")]
+        private void ManualParepare()
+        {
+            EnabledReadybutton(false);
+            usemanual = true;
+            GlobalClass.NowCarType = CardType.iMC4xxE_A;
+            if (IsPreparing) return;          
+            IsPreparing = true;
+            if (m_ControlData.mSinglePlatFormControl.ConnectToMachine() == false)
+            {
+                MessageBox.Show("控制卡连接失败，请检查接线");
+                IsPreparing = false;
+                return;
+            }
+            WaitForTime tmpw = new WaitForTime(1.0f, Config);
+        }
+        private void ConnectAndPrepare()
+        {
+            EnabledReadybutton(false);
+            //usemanual = true;
+            GlobalClass.NowCarType = CardType.iMC4xxE_A;
+            if (IsPreparing) return;
+            IsPreparing = true;
+            if (m_ControlData.mSinglePlatFormControl.ConnectToMachine() == false)
+            {
+                MessageBox.Show("控制卡连接失败，请检查接线");
+                IsPreparing = false;
+                return;
+            }
+            WaitForTime tmpw = new WaitForTime(1.0f, Config);
+        }
+        private void Config()
+        {
+            int res = m_ControlData.mSinglePlatFormControl.thisplatform.DoConfigCard();
+            WaitForTime tmpw = new WaitForTime(1.0f, /*prepareres*/BeginRes);
+        }
+        //[Obsolete("This class is obsolete; use class B instead")]
+        //private void prepareres()
+        //{
+        //    this.Invoke(new Action(BeginRes));
+        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        private void BeginRes()
+        {
+            if (m_ControlData.mSinglePlatFormControl.HaveCompeleteFuwei)
+            {
+                MessageBox.Show("已经完成复位");
+                return;
+            }
+            if (m_ControlData.mSinglePlatFormControl.thisplatform.isOpen())
+            {
+                m_ControlData.mSinglePlatFormControl.BegionToResetPlanel(CompleteFuWei, m_ControlData.mConfigXML.FU_Acc, m_ControlData.mConfigXML.FU_speed, (int)m_ControlData.mConfigXML.FU_dist);
+            }
+            else
+            {
+                MessageBox.Show("正在复位中");
+            }
+        }
+
+        private void CompleteFuWei()
+        {
+
+            for (int i = 0; i < 6; i++)
+            {
+                SinglePlatFormControl.P2P_runing_StopOne(m_ControlData.mSinglePlatFormControl.thisplatform.g_handle, i);
+            }
+            WaitForTime tm = new WaitForTime(1.0f, TCaculator);
+        }
+
+        private void TCaculator()
+        {
+            m_ControlData.mSinglePlatFormControl.thisplatform.CaculatorBili(m_ControlData.mConfigXML.P_XingC);
+            m_ControlData.mSinglePlatFormControl.thisplatform.SetOrigPosAll();
+            for (int i = 0; i < 6; i++)
+            {
+                SinglePlatFormControl.P2P_runing_start(m_ControlData.mSinglePlatFormControl.thisplatform.g_handle, i, m_ControlData.mConfigXML.FU_Acc, m_ControlData.mConfigXML.FU_speed, m_ControlData.mConfigXML.FU_speed, 0);
+            }
+            WaitForTime tm = new WaitForTime(1.0f, ToClear);
+            //   m_ControlData.mSinglePlatFormControl.Set_Limitswitch(0);
+        }
+        private void ToClear()
+        {
+
+            for (int i = 0; i < 6; i++)
+            {
+                SinglePlatFormControl.P2P_runing_start(m_ControlData.mSinglePlatFormControl.thisplatform.g_handle, i, m_ControlData.mConfigXML.FU_Acc, m_ControlData.mConfigXML.FU_speed, m_ControlData.mConfigXML.FU_speed, 0);
+            }
+            WaitForTime tm = new WaitForTime(1.0f, /*ToReady*/Showms);
+
+        }
+        //private void ToReady()
+        //{
+        //    this.Invoke(new Action(showms));
+        //}
+        private Action mDocheck = null;
+        private DispatcherTimer timer1 = new DispatcherTimer();
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            if (mDocheck != null)
+            {
+                mDocheck();
+            }
+        }
+        private void Showms()
+        {
+            m_ControlData.mSinglePlatFormControl.Set_Limitswitch(0);
+            //timer1.Enabled = true;
+            //timer1.Tick += Timer1_Tick;
+            ///回中完成后会调用ToMiddleComp（）函数
+            CalutorToMiddle(ToMiddleComp);
+        }
+        private void EnabledReadybutton(bool res)
+        {
+            ManualReady.IsEnabled = res;
+            AutoReady.IsEnabled = res;
+        }
+        private void EnabledBeginEnd(bool res)
+        {
+            StartWork.IsEnabled = res;
+            StopWork.IsEnabled = res;
+        }
+        private void ToMiddleComp()
+        {
+            if (usemanual == false)
+            {
+                EnabledReadybutton(false);
+                EnabledBeginEnd(true);
+            }
+            else if(mManualSet != null)
+            {
+                mManualSet.ToMiddleCom();
+            }
+        }
+        private int[] TargetPos = new int[6];
+        private Action ReachAndCallBack = null;
+        private void CalutorToMiddle(Action callback)
+        {
+            if (usemanual)
+            {
+                ///计算中间位置每个缸的长度
+                ///
+                float[] abc = m_ControlData.mSixPlaneF.rounds(0, 0, 0);
+                float[] Zitaidata = m_ControlData.mSixPlaneF.Six_Platform_RoundF(0, 45, 0, abc[0], abc[1], abc[2]);
+
+                ///将缸的长度转换成脉冲
+                int[] Spos = m_ControlData.mSinglePlatFormControl.thisplatform.Conver_LengthTopluse2(Zitaidata);
+                //for (int i = 0; i < 6; i++)
+                //{
+                //    Spos[i] = Spos[i] + m_ControlData.mConfigXML.DeltalPos[i];
+                //}
+                TargetPos = Spos;
+                for (int j = 0; j < 6; j++)
+                {
+                    SinglePlatFormControl.P2P_runing_start(m_ControlData.mSinglePlatFormControl.thisplatform.g_handle, j, 1, m_ControlData.mConfigXML.FU_speed, m_ControlData.mConfigXML.FU_speed, Spos[j]);
+                }
+            }
+            else
+            {
+                ///计算中间位置每个缸的长度
+                ///
+                float[] abc = m_ControlData.mSixPlaneF.rounds(0, 0, 0);
+                float[] Zitaidata = m_ControlData.mSixPlaneF.Six_Platform_RoundF(0, 45, 0, abc[0], abc[1], abc[2]);
+
+                ///将缸的长度转换成脉冲
+                int[] Spos = m_ControlData.mSinglePlatFormControl.thisplatform.Conver_LengthTopluse2(Zitaidata);
+                for (int i = 0; i < 6; i++)
+                {
+                    Spos[i] = Spos[i] + m_ControlData.mConfigXML.DeltalPos[i];
+                }
+                TargetPos = Spos;
+                for (int j = 0; j < 6; j++)
+                {
+                    SinglePlatFormControl.P2P_runing_start(m_ControlData.mSinglePlatFormControl.thisplatform.g_handle, j, 1, m_ControlData.mConfigXML.FU_speed, m_ControlData.mConfigXML.FU_speed, Spos[j]);
+                }
+
+            }
+
+            //回中后回调赋值给ReachAndCallBack
+            ReachAndCallBack = callback;
+            //将CheckToDoCallback检查回中是否完成放到mthread1线程
+            mDocheck = null;
+            mDocheck = CheckToDoCallback;
+        }
+        private void CheckToDoCallback()
+        {
+            ///回去控制卡的脉冲返回
+            int[] mback = m_ControlData.mSinglePlatFormControl.GetCommendBack();
+
+            int[] mback2 = new int[6];
+            for (int j = 0; j < mback2.Length; j++)
+            {
+                mback2[j] = mback[j];
+            }
+            //回中完成
+            if (CheckPulseresult(TargetPos, mback2))
+            {
+                mDocheck = null;
+                if (ReachAndCallBack != null)
+                {
+                    //调用回中完成的委托也就是ToMiddleComp（）
+                    ReachAndCallBack();
+                }
+            }
+
+        }
+        public bool CheckPulseresult(int[] targetpos, int[] nowpos)
+        {
+            if (targetpos.Length != nowpos.Length)
+            {
+                return false;
+            }
+            bool resd = true;
+            for (int i = 0; i < targetpos.Length; i++)
+            {
+                if (Math.Abs(targetpos[i] - nowpos[i]) > 5)
+                {
+                    resd = false;
+                    break;
+                }
+            }
+            return resd;
+        }
+        private DispatcherTimer timer2 = new DispatcherTimer(); 
+        private void StartWork_Click(object sender, RoutedEventArgs e)
+        {
+            rx = 0;
+            ry = 0;
+            rz = 0;
+            NowIndex = 0;
+            StartTime = DateTime.Now;
+            BeginMove = true;
+
+            timer2.Start();
+            workInThread = CaculatorTosend;
+        }
+
+        private void StopWork_Click(object sender, RoutedEventArgs e)
+        {
+            G_Over();
+            timer2.Stop();
         }
     }
 }
