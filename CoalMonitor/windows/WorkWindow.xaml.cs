@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using CoalMonitor.classlib;
 using System.Threading;
 using System.Windows.Threading;
+using Visifire.Charts;
 
 namespace CoalMonitor.windows
 {
@@ -61,25 +62,40 @@ namespace CoalMonitor.windows
             }
             //Enabled_begionEnd(false);
             //Enabled_Readybutton(true);
-            //isRunning = true;
-            //SendThread = new Thread(SendMethod);
-            //SendThread.Start();
+            isRunning = true;
+            SendThread = new Thread(SendMethod);
+            SendThread.Start();
             Intlized();
 
 
-            timer2.Interval = new System.TimeSpan(0, 0, 50);
-            timer2.Tick += Timer2_Tick;
+            timer2.Interval = new System.TimeSpan(0, 0, 1);
+            timer2.Tick += new EventHandler(Timer2_Tick);
             timer1.Tick += Timer1_Tick;
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            isRunning = false;
+            SendThread.Abort();
+            base.OnClosed(e);
+        }
+
+        private static int i = 0;
         private void Timer2_Tick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //LightDataPoint ld = new LightDataPoint();
+
+            //ld.XValue = i++;
+            //ld.YValue = Math.Sin(i*0.1);
+            //_chart.Series[0].DataPoints.Add(ld);
             if (BeginMove)
             {
                 RunTime.Text = "时间:" + talsec + "秒";
                 commandListBox.SelectedIndex = NowIndex;
                 RunState.Text = "RX:" + rx + "--RY:" + ry + "--RZ:" + rz;
+
+                /// @Todo: 增加保存rx，ry，rz，以绘制曲线
             }
             else
             {
@@ -110,7 +126,6 @@ namespace CoalMonitor.windows
                 {
                     workInThread();
                 }
-
             }
             return;
         }
@@ -594,6 +609,7 @@ namespace CoalMonitor.windows
         private void Showms()
         {
             m_ControlData.mSinglePlatFormControl.Set_Limitswitch(0);
+            timer1.Start();
             //timer1.Enabled = true;
             //timer1.Tick += Timer1_Tick;
             ///回中完成后会调用ToMiddleComp（）函数
@@ -722,6 +738,8 @@ namespace CoalMonitor.windows
 
             timer2.Start();
             workInThread = CaculatorTosend;
+
+            _chart.Series[0].DataPoints = new DataPointCollection();
         }
 
         private void StopWork_Click(object sender, RoutedEventArgs e)

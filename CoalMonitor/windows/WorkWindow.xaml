@@ -18,11 +18,26 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--用于全局变量-->
-                <ResourceDictionary Source="../resource/AppResource.xaml"></ResourceDictionary>
+                <!--<ResourceDictionary Source="../resource/AppResource.xaml"></ResourceDictionary>-->
                 <!--用户控件样式-->
                 <ResourceDictionary Source="../styles/WindowsStyle.xaml"></ResourceDictionary>                
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+            <Style TargetType="TextBlock" x:Key="localTxt">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Padding" Value="3"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="localVariable">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Background" Value="LightBlue"/>
+            </Style>
+        </ResourceDictionary>        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,14 +46,15 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <!--图表区-->
-            <vc:Chart VerticalAlignment="Stretch" Name="_chart" Width="600">
+            <vc:Chart VerticalAlignment="Stretch" Name="_chart" Width="550">
                 <vc:Chart.Series>
                     <vc:DataSeries RenderAs="QuickLine"/>
                 </vc:Chart.Series>
             </vc:Chart>
             <!--状态显示区-->
             <StackPanel>
-                <Grid>
+                <Border BorderThickness="2" BorderBrush="LightBlue">
+                <Grid Height="200" Margin="20">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -49,11 +65,20 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Name="RunState">运行状态</TextBlock>
-                    <TextBlock Grid.Row="1" Name="RunTime">运行时间</TextBlock>
-                    <TextBlock Grid.Row="2" Name="RunType">运动类型</TextBlock>
-                    <TextBlock Grid.Row="3" Name="RunSpeed">运动速度</TextBlock>
+                    <TextBlock Style="{StaticResource localTxt}">运行状态</TextBlock>
+                        <TextBlock Name="RunState" Grid.Column="1" 
+                                   Style="{StaticResource localVariable}">运行状态</TextBlock>
+                    <TextBlock Grid.Row="1" Style="{StaticResource localTxt}">运行时间</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Name="RunTime" 
+                                   Style="{StaticResource localVariable}">运行时间</TextBlock>
+                    <TextBlock Grid.Row="2" Style="{StaticResource localTxt}">运动类型</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Name="RunType" 
+                                   Style="{StaticResource localVariable}">运动类型</TextBlock>
+                    <TextBlock Grid.Row="3" Style="{StaticResource localTxt}">运动速度</TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Name="RunSpeed" 
+                                   Style="{StaticResource localVariable}">运动速度</TextBlock>
                 </Grid>
+                </Border>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal">

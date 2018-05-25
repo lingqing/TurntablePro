@@ -17,12 +17,12 @@
         Title="ManualSet" Height="600" Width="700">
     <Window.Resources>
         <c:ArrayList x:Key="AixesList">
-            <local:AixParameter TitleName="1轴"/>
-            <local:AixParameter TitleName="2轴"/>
-            <local:AixParameter TitleName="3轴"/>
-            <local:AixParameter TitleName="4轴"/>
-            <local:AixParameter TitleName="5轴"/>
-            <local:AixParameter TitleName="6轴"/>
+            <local:AixParameter TitleName="1轴" Position="N/A"/>
+            <local:AixParameter TitleName="2轴" Position="N/A"/>
+            <local:AixParameter TitleName="3轴" Position="N/A"/>
+            <local:AixParameter TitleName="4轴" Position="N/A"/>
+            <local:AixParameter TitleName="5轴" Position="N/A"/>
+            <local:AixParameter TitleName="6轴" Position="N/A"/>
         </c:ArrayList>
         <c:ArrayList x:Key="SpeedList">
             <sys:Single>1</sys:Single>
@@ -90,7 +90,7 @@
         <!--手动调整-->
         <TextBlock Style="{StaticResource localTxtSmall}">第二步：调平平台或直接点“使用上次”</TextBlock>
         
-        <ListBox Name="AixListBox" ItemsSource="{StaticResource ResourceKey=AixesList}" Height="Auto"
+        <ListBox Name="AixListBox" Height="Auto"
                  ItemContainerStyle="{StaticResource alternateStyle}"
                  Margin=" 10 5">
             <ListBox.ItemTemplate>
@@ -106,7 +106,7 @@
                                   Style="{StaticResource localComboBox}"/>
                         <Button Name="DownButton" Click="DownButton_Click" Style="{StaticResource localButton}" >向下</Button>
                         <Button Name="UpButton" Click="UpButton_Click" Style="{StaticResource localButton}" >向上</Button>
-                        <TextBlock/>
+                        <TextBlock Name="PosText" Width="100" Text="{Binding Position,Mode=TwoWay}" Style="{StaticResource localTxtSmall}" TextAlignment="Center"/>
                         <Ellipse Fill="#FFFF0006" Height="20" Margin="20 5" Stroke="Black"  Width="20"/>
                         <Ellipse Fill="#FFFF0006" Height="20" Margin="20 5" Stroke="Black"  Width="20"/>
                     </StackPanel>

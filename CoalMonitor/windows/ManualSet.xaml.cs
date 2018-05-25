@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CoalMonitor.classlib;
 using System.Windows.Threading;
+using System.Collections;
 
 namespace CoalMonitor.windows
 {
@@ -26,15 +27,25 @@ namespace CoalMonitor.windows
         private List<int> StepListIndex = new List<int>() { 1, 1, 1, 1, 1, 1 };
         private List<float> localSpeedList = new List<float>() { 1, 1, 1, 1, 1, 1 };
         private List<int> localStepList = new List<int>() { 1, 1, 1, 1, 1, 1 };
+
+        private List<AixParameter> listAixPara = new List<AixParameter>();
+        
         public ManualSet()
         {
             InitializeComponent();
-            //List<String> myList = new List<String>{ "1", "2", "3", "4" };
-            //listBox.ItemsSource = myList;
+            
             timer1.Tick += Timer1_Tick;
             UseLastBtn.IsEnabled = false;
-            ToMiddle.IsEnabled = true;           
+            ToMiddle.IsEnabled = true;
             //AixListBox.IsEnabled = false;
+            listAixPara.Add(new AixParameter("1轴"));
+            listAixPara.Add(new AixParameter("2轴"));
+            listAixPara.Add(new AixParameter("3轴"));
+            listAixPara.Add(new AixParameter("4轴"));
+            listAixPara.Add(new AixParameter("5轴"));
+            listAixPara.Add(new AixParameter("6轴"));
+            AixListBox.ItemsSource = listAixPara;
+
         }
 
         private void AixsToMove(int aix, bool toup)
@@ -92,8 +103,9 @@ namespace CoalMonitor.windows
             Button btn = (Button)sender;
             AixParameter para = (AixParameter)btn.DataContext;
             if (para.TitleName.Length < 1) return;
-            int aixIndex = Convert.ToInt32(para.TitleName.Substring(0, 1));            
+            int aixIndex = Convert.ToInt32(para.TitleName.Substring(0, 1));
             AixsToMove(aixIndex, false);
+
         }
         /// <summary>
         /// 返回主页面
@@ -145,12 +157,16 @@ namespace CoalMonitor.windows
             {
                 int[] mbck = mControlData.mSinglePlatFormControl.GetCommendBack();
                 ushort[,] mswitch = mControlData.mSinglePlatFormControl.GetLimitSwitch();
+                //ArrayList aixParaList = this.Resources["AixesList"] as ArrayList;
                 for (int i = 0; i < 6; i++)
-                {
+                {     
+                    listAixPara[i].Position = mbck[i] + "";
+                    /// @Todo:
                     //Poslist[i].Text = mbck[i] + "";
                     //LimitS[i].Text = GetLimitText(mswitch[i, 0]);
                     //LimitX[i].Text = GetLimitText(mswitch[i, 1]);
                 }
+                AixListBox.Items.Refresh();
             }
         }
 
