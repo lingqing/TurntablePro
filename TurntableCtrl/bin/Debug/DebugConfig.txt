@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <USEDEBUG>0</USEDEBUG>
+  <P_ShangLong>300</P_ShangLong>
+  <P_ShangShort>100</P_ShangShort>
+  <P_XiaLong>300</P_XiaLong>
+  <P_XiaShort>100</P_XiaShort>
+  <P_XingC>200</P_XingC>
+  <P_Height>300</P_Height>
+  <COMName>COM1</COMName>
+  <comTime>20</comTime>
+  <FU_speed>10</FU_speed>
+  <FU_Acc>1</FU_Acc>
+  <FU_dist>2E+07</FU_dist>
+  <P2PSpeed>1</P2PSpeed>
+  <P2Plength>1000</P2Plength>
+  <WorkSpeed>60</WorkSpeed>
+  <DeltalPos>
+    <int>0</int>
+    <int>8497</int>
+    <int>32134</int>
+    <int>20317</int>
+    <int>0</int>
+    <int>-7500</int>
+  </DeltalPos>
+  <ZhouMin>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+  </ZhouMin>
+  <ZhouMax>
+    <float>255</float>
+    <float>255</float>
+    <float>255</float>
+    <float>255</float>
+    <float>255</float>
+    <float>255</float>
+  </ZhouMax>
+  <mCardType>iMC3xx2E</mCardType>
+  <CardTypeString>iMC3xx2E/iMC4xxE_A</CardTypeString>
+</ConfigXML>

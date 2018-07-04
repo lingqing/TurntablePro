@@ -1,0 +1,29 @@
+﻿<Window x:Class="TurntableCtrl.windows.Welcom"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts"
+        xmlns:local="clr-namespace:TurntableCtrl.windows"
+        mc:Ignorable="d"
+        Title="Welcom" Height="300" Width="300">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--用于全局变量-->
+                <ResourceDictionary Source="../resource/AppResource.xaml"></ResourceDictionary>
+                <!--用户控件样式-->
+                <ResourceDictionary Source="../styles/WindowsStyle.xaml"></ResourceDictionary>
+
+            </ResourceDictionary.MergedDictionaries>            
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="{StaticResource ResourceKey=CompanyName}" Style="{DynamicResource ResourceKey=StartTitle}"></TextBlock>
+        <Button Name="WorkWindowBtn" Click="WorkWindowBtn_Click" Style="{DynamicResource ResourceKey=StartWorkWindowBtn}">工作界面</Button>
+        <Button Name="ExitBtn" Click="ExitBtn_Click" Style="{DynamicResource ResourceKey=StartWorkWindowBtn}">退出</Button>
+        <Button Name="DebugWindowBtn" Click="DebugWindowBtn_Click" Style="{DynamicResource ResourceKey=StartWorkWindowBtn}">调试界面</Button>
+    </StackPanel>
+</Window>
